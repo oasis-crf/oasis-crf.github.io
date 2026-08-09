@@ -6,3 +6,7 @@
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Document de travail des traductions (non publie)
+TRADUCTION*.pdf
+TRADUCTION*.docx
