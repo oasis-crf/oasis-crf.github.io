@@ -1,18 +1,23 @@
 # OASIS — Communiquer dans votre langue
 
-Petite application (une page web) pour l'accueil OASIS de la Croix-Rouge : on choisit
-la langue de la personne en face en cliquant sur un drapeau, puis on lui montre les
-phrases traduites et on peut écouter l'enregistrement audio de chacune.
+### 👉 Le site : **https://oasis-crf.github.io**
 
-Tout tient dans un dossier, **sans base de données ni serveur**. Les langues, les
-traductions et les liens audio vivent dans un tableur ; la page web les lit toute seule.
+Application d'une page pour l'accueil OASIS de la Croix-Rouge : on choisit la langue de
+la personne en face en cliquant sur un drapeau, puis on lui montre les phrases traduites
+et on peut écouter l'enregistrement audio de chacune.
+
+**Les trois choses à savoir :**
+
+- Les traductions se modifient dans un **tableur**, pas dans le code.
+- Une modification du tableur est visible sur le site **au rechargement de la page**.
+- Le site se republie tout seul à chaque envoi de fichier sur GitHub (branche `main`).
 
 ## Contenu du dossier
 
 ```
 index.html      ← l'application (ne demande aucune installation)
-data.xlsx       ← la base de données locale (secours si le Google Sheet est indisponible)
-flags/          ← les drapeaux (43 pays), pour que le site soit rapide
+data.xlsx       ← la base de données : langues, drapeaux, traductions, audio
+flags/          ← les drapeaux (43 pays), stockés en local pour la rapidité
 audio/          ← les fichiers son (.mp3), à déposer ici
 README.md       ← ce guide
 ```
@@ -25,112 +30,9 @@ traduction en grand (pour la personne), et un bouton **Écouter** quand l'audio 
 
 ---
 
-# 1. Mettre le site en ligne — adresse `oasis-crf`
+# 1. Modifier les textes ou ajouter une langue
 
-L'objectif : une adresse au nom de l'association, **pas à votre nom**, et sans toucher
-au site que vous avez déjà sur votre compte GitHub.
-
-La solution : une **organisation GitHub** appelée `oasis-crf`. Une organisation est
-gratuite, elle a ses propres dépôts et sa propre adresse. Votre compte personnel et
-votre site actuel ne bougent pas ; vous en êtes simplement administratrice.
-
-Adresse finale : **https://oasis-crf.github.io**
-
-### Les étapes
-
-1. ✅ **Organisation créée** : `oasis-crf`.
-
-2. **Renommer le dépôt.** Pour que l'adresse soit la version courte
-   (`oasis-crf.github.io` et non `oasis-crf.github.io/oasis-crf/`), le dépôt doit
-   porter **exactement** le nom de l'organisation suivi de `.github.io`.
-   Dépôt → **Settings** → **General** → *Repository name* →
-   remplacer `oasis-crf` par **`oasis-crf.github.io`** → **Rename**.
-   GitHub redirige automatiquement l'ancien nom, rien ne casse.
-
-3. **Envoyer les fichiers.** Depuis ce dossier :
-
-   ```bash
-   git push -u origin main
-   ```
-
-   (Le dépôt local est déjà prêt : branche `main`, fichiers ajoutés, `origin`
-   configuré.) GitHub demandera vos identifiants : utilisez votre nom d'utilisateur
-   et un **jeton d'accès personnel** comme mot de passe — GitHub n'accepte plus le
-   mot de passe du compte. Créez-le sur
-   *Settings → Developer settings → Personal access tokens → Fine-grained tokens*,
-   avec accès en écriture au dépôt.
-
-4. **Activer la publication.** Dépôt → **Settings** → **Pages** →
-   *Source* : « Deploy from a branch » → branche `main`, dossier `/ (root)` → **Save**.
-
-5. **Attendre une minute**, puis ouvrir **https://oasis-crf.github.io** 🎉
-
-> **Nom de domaine personnalisé (optionnel).** Si vous préférez `oasiscroixrouge.fr`
-> (environ 10 €/an chez un registrar), il se branche sur GitHub Pages en ajoutant le
-> domaine dans Settings → Pages → *Custom domain*. Pas nécessaire pour démarrer.
-
-> **Avant de rendre le site public :** le nom et l'emblème « Croix-Rouge » sont
-> protégés. Faites valider la mise en ligne par votre délégation — c'est une formalité,
-> mais elle vaut mieux avant qu'après.
-
----
-
-# 2. Les traductions sur Google Drive (modifiables par les bénévoles)
-
-Par défaut, le site lit `data.xlsx`, qui est *dans* le site : le modifier demande de
-repasser par GitHub. Pour que **plusieurs bénévoles puissent corriger les traductions
-directement**, on met la base sur Google Sheets. Le site la relit à chaque
-ouverture de page : une correction dans le tableur est visible tout de suite.
-
-### Mise en place (une seule fois)
-
-1. **Importer le tableur.** Sur [drive.google.com](https://drive.google.com) →
-   **Nouveau** → *Importer un fichier* → choisissez `data.xlsx`.
-   Puis clic droit sur le fichier importé → *Ouvrir avec* → **Google Sheets** →
-   Fichier → **Enregistrer au format Google Sheets**.
-   Vérifiez que les trois onglets sont bien là : `Mode d'emploi`, `Phrases`,
-   `Traductions`. **Ne renommez pas les onglets**, le site les cherche par leur nom.
-
-2. **Partager en lecture.** Bouton **Partager** → *Accès général* →
-   « **Tous les utilisateurs disposant du lien** » → rôle **Lecteur**.
-   (C'est ce qui permet au site de lire le tableur. Le contenu n'a rien de
-   confidentiel : ce sont des phrases d'accueil.)
-
-3. **Donner le droit de modifier aux bénévoles.** Toujours dans **Partager**,
-   ajoutez leurs adresses e-mail en **Éditeur**. Eux seuls pourront écrire.
-
-4. **Copier l'identifiant du tableur.** Dans l'adresse du Google Sheet :
-
-   ```
-   https://docs.google.com/spreadsheets/d/1a2B3c4D5e6F7g8H9i0J.../edit#gid=0
-                                          └────── ceci ──────┘
-   ```
-
-5. **Le coller dans `index.html`.** Vers la ligne 190, au début des `RÉGLAGES` :
-
-   ```js
-   SHEET_ID: "1a2B3c4D5e6F7g8H9i0J...",
-   ```
-
-   Enregistrez, renvoyez `index.html` sur GitHub (dépôt → `index.html` → crayon
-   *Edit* → coller → *Commit changes*). Une minute plus tard, c'est actif.
-
-En bas du site s'affiche alors « Données : Google Sheets », avec un lien direct vers
-le tableur — pratique pour les bénévoles.
-
-### Ce qui se passe si Google est injoignable
-
-Le site **repasse automatiquement sur `data.xlsx`** et affiche un bandeau orange
-d'avertissement. Il ne tombe jamais en panne. Pensez donc, de temps en temps, à
-retélécharger le Google Sheet (Fichier → Télécharger → *Microsoft Excel*) et à
-remplacer `data.xlsx` dans le dépôt : ça garde la copie de secours à jour.
-
----
-
-# 3. Modifier les textes ou ajouter une langue
-
-Tout se fait dans le tableur (Google Sheets, ou `data.xlsx` si vous n'avez pas encore
-fait l'étape 2). **Il n'y a pas de code à toucher.**
+Tout se fait dans le tableur. **Il n'y a pas de code à toucher.**
 
 - Onglet **« Traductions »** : **une ligne par langue**. Remplissez les colonnes `p1`…`p6`
   avec les traductions. **Une cellule jaune = traduction encore à faire.**
@@ -145,10 +47,15 @@ fait l'étape 2). **Il n'y a pas de code à toucher.**
   (arabe, hébreu, farsi, dari, ourdou, pachto…).
 - L'onglet **« Mode d'emploi »** rappelle tout ça dans le fichier lui-même.
 
-Rechargez la page : c'est à jour. Les lignes `fr`, `en` et `es` sont déjà remplies en
-entier et servent d'exemple.
+Rechargez la page : c'est à jour.
 
-# 4. Ajouter un enregistrement audio
+**Où modifier, selon la configuration :**
+
+- *Tableur sur Google Sheets* (voir §3) → modifiez en ligne, c'est immédiat.
+- *Pas encore configuré* → modifiez `data.xlsx` et renvoyez-le sur GitHub
+  (dépôt → `data.xlsx` → *Add file* → *Upload files* → glisser la nouvelle version).
+
+# 2. Ajouter un enregistrement audio
 
 1. Nommez le fichier ainsi : **`CODE_pN.mp3`** — ex. `es_p3.mp3` (phrase 3 en espagnol).
 2. Déposez-le dans le dossier **`audio/`** du dépôt GitHub.
@@ -158,12 +65,52 @@ Le bouton **Écouter** apparaît automatiquement. Tant qu'une case audio est vid
 aucun bouton ne s'affiche (mention « Audio à enregistrer »).
 
 > **Et les liens Google Drive ?** Si un bénévole colle un lien de partage Drive dans une
-> colonne `audioN`, le site essaie de le convertir en lecture directe. **Ça marche
-> souvent, mais pas toujours** (Google intercale parfois une page d'avertissement).
-> Pour les enregistrements définitifs, déposez les `.mp3` dans `audio/` : c'est plus
-> rapide et toujours fiable.
+> colonne `audioN`, le site le convertit tout seul en lecture directe. **Ça marche
+> souvent, mais pas toujours** : Google intercale parfois une page d'avertissement, et
+> limite les téléchargements d'un fichier très consulté. Pour les enregistrements
+> définitifs, déposez les `.mp3` dans `audio/` : c'est plus rapide et toujours fiable.
 
-# 5. Tester sur votre ordinateur (avant mise en ligne)
+# 3. Mettre les traductions sur Google Drive *(optionnel, non configuré)*
+
+Aujourd'hui le site lit `data.xlsx`, qui est *dans* le site : le modifier demande de
+repasser par GitHub. Pour que **plusieurs bénévoles corrigent les traductions
+directement**, on met la base sur Google Sheets.
+
+1. **Importer le tableur.** [drive.google.com](https://drive.google.com) → **Nouveau** →
+   *Importer un fichier* → `data.xlsx`. Puis clic droit → *Ouvrir avec* →
+   **Google Sheets** → Fichier → **Enregistrer au format Google Sheets**.
+   **Ne renommez pas les onglets** (`Phrases`, `Traductions`) : le site les cherche par
+   leur nom.
+
+2. **Partager en lecture.** Bouton **Partager** → *Accès général* →
+   « **Tous les utilisateurs disposant du lien** » → rôle **Lecteur**.
+   C'est ce qui permet au site de lire le tableur.
+
+3. **Donner le droit de modifier aux bénévoles.** Toujours dans **Partager**, ajoutez
+   leurs adresses e-mail en **Éditeur**. Eux seuls pourront écrire.
+
+4. **Copier l'identifiant** dans l'adresse du tableur :
+
+   ```
+   https://docs.google.com/spreadsheets/d/1a2B3c4D5e6F7g8H9i0J.../edit#gid=0
+                                          └────── ceci ──────┘
+   ```
+
+5. **Le coller dans `index.html`**, vers la ligne 187 :
+
+   ```js
+   SHEET_ID: "1a2B3c4D5e6F7g8H9i0J...",
+   ```
+
+   Enregistrez et renvoyez le fichier sur GitHub. Une minute plus tard, c'est actif :
+   en bas du site s'affiche « Données : Google Sheets » avec un lien vers le tableur.
+
+**Si Google est injoignable**, le site repasse automatiquement sur `data.xlsx` et affiche
+un bandeau orange. Il ne tombe jamais en panne. Pensez donc de temps en temps à
+retélécharger le Google Sheet (Fichier → Télécharger → *Microsoft Excel*) et à remplacer
+`data.xlsx` dans le dépôt, pour garder la copie de secours à jour.
+
+# 4. Tester sur votre ordinateur
 
 Ouvrir `index.html` par double-clic **ne marche pas** : le navigateur bloque la lecture
 du fichier Excel en local (`file://`). Lancez un mini-serveur depuis le dossier :
@@ -172,16 +119,18 @@ du fichier Excel en local (`file://`). Lancez un mini-serveur depuis le dossier 
 python -m http.server 8000
 ```
 
-puis ouvrez `http://localhost:8000`. (Avec VS Code, l'extension « Live Server » fait pareil.)
+puis ouvrez `http://localhost:8000`.
 
-# 6. Faire évoluer l'apparence avec Claude Code
+# 5. Faire évoluer l'apparence
 
-Clonez le dépôt en local, ouvrez le dossier dans Claude Code, décrivez la modification
-(`index.html` est le seul fichier « code »), testez avec `python -m http.server`, puis
-`git push` — GitHub Pages publie la nouvelle version automatiquement.
+Ouvrez le dossier dans Claude Code et décrivez la modification — `index.html` est le seul
+fichier « code ». Testez en local, puis :
 
-Les **traductions**, elles, se gèrent dans le tableur (par vos bénévoles/traducteurs),
-indépendamment du code.
+```bash
+git push
+```
+
+GitHub Pages republie la nouvelle version automatiquement, en une minute environ.
 
 ---
 
