@@ -209,6 +209,11 @@ var CONFIG = {
       qEl=$("#q"), countEl=$("#count"), cardsEl=$("#cards"), headEl=$("#langHead"),
       srcEl=$("#srcInfo");
 
+  /* Comparaison à la française : les accents ne changent pas le classement. */
+  var collator = (typeof Intl !== "undefined" && Intl.Collator)
+    ? new Intl.Collator("fr", {sensitivity:"base", numeric:true})
+    : { compare: function(a,b){ return a.localeCompare(b, "fr"); } };
+
   function norm(s){ return (s||"").toString().toLowerCase()
     .normalize("NFD").replace(/[̀-ͯ]/g,""); }
 
@@ -321,6 +326,11 @@ var CONFIG = {
       PHRASES[id] = row[keys[1]] || "";   // 2e colonne = le texte français
     });
     LANGS = trad.filter(function(r){ return (r.code || "").toString().trim(); });
+    /* Ordre alphabétique français : « Éwé » se range à E, « Hébreu » à H.
+       L'ordre des lignes du tableur n'a donc plus d'importance. */
+    LANGS.sort(function(a, b){
+      return collator.compare((a.langue_fr||"").toString(), (b.langue_fr||"").toString());
+    });
   }
 
   function boot(){
@@ -348,7 +358,6 @@ var CONFIG = {
     fetchXLSX().then(function(d){
       ingest(d.trad, d.phrases);
       if(warning) noticeEl.innerHTML = '<p class="warn">⚠️ ' + warning + '</p>';
-      srcEl.textContent = "· Données : fichier data.xlsx du site";
       renderGrid("");
     }).catch(function(err){ showError(err); });
   }
