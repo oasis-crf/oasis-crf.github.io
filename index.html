@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OASIS — Communiquer dans votre langue</title>
+<style>
+  :root{
+    --ink:#17211d; --muted:#5f6b66; --bg:#fcfbf8; --card:#ffffff;
+    --teal:#147d6f; --teal-d:#0e5f55; --teal-soft:#e4efec; --sand:#efe9db;
+    --line:#e8e3d6; --red:#e4002b; --focus:#0e5f55;
+    --radius:16px; --shadow:0 1px 2px rgba(23,33,29,.05), 0 6px 20px rgba(23,33,29,.05);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","Helvetica Neue",Arial,sans-serif;
+    color:var(--ink); background:var(--bg); line-height:1.5;
+    -webkit-text-size-adjust:100%;
+  }
+  .wrap{max-width:1040px; margin:0 auto; padding:0 18px 24px}
+
+  /* ---------- header ---------- */
+  header.top{
+    background:linear-gradient(180deg,#fff, #fbfaf6);
+    border-bottom:1px solid var(--line); position:sticky; top:0; z-index:20;
+  }
+  .top-in{max-width:1040px; margin:0 auto; padding:16px 18px; display:flex; align-items:center; gap:14px}
+  .mark{width:40px;height:40px;border-radius:12px;background:var(--teal-soft);
+    display:grid;place-items:center;flex:0 0 auto}
+  .mark svg{display:block}
+  .brand h1{font-size:1.18rem; margin:0; letter-spacing:.2px}
+  .brand p{margin:1px 0 0; color:var(--muted); font-size:.82rem}
+  .brand b{color:var(--red)}
+
+  /* ---------- search ---------- */
+  .search{margin:22px 0 8px; position:relative}
+  .search input{
+    width:100%; font-size:1.05rem; padding:15px 16px 15px 46px; border-radius:14px;
+    border:1px solid var(--line); background:var(--card); color:var(--ink); box-shadow:var(--shadow);
+  }
+  .search input:focus{outline:3px solid var(--teal-soft); border-color:var(--teal)}
+  .search .ic{position:absolute; left:15px; top:50%; transform:translateY(-50%); color:var(--muted)}
+  .count{color:var(--muted); font-size:.82rem; margin:6px 2px 0}
+
+  /* ---------- grid ---------- */
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px; margin-top:14px}
+  .tile{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px 14px; text-align:left; cursor:pointer; box-shadow:var(--shadow);
+    display:flex; flex-direction:column; gap:9px; min-height:112px; transition:transform .12s, border-color .12s, box-shadow .12s;
+  }
+  .tile:hover{transform:translateY(-2px); border-color:var(--teal); box-shadow:0 8px 26px rgba(20,125,111,.14)}
+  .tile:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
+  .flags{display:flex; gap:5px; flex-wrap:wrap; min-height:16px}
+  .flags img{width:24px; height:16px; object-fit:cover; border-radius:3px; box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+  .native{font-size:1.22rem; font-weight:700; line-height:1.25}
+  .fr{font-size:.82rem; color:var(--muted); margin-top:auto}
+
+  .empty{grid-column:1/-1; text-align:center; color:var(--muted); padding:40px 0}
+
+  /* ---------- detail ---------- */
+  #detail{display:none}
+  .back{
+    display:inline-flex; align-items:center; gap:8px; margin:22px 0 4px; padding:10px 14px;
+    border-radius:12px; border:1px solid var(--line); background:var(--card);
+    font-size:.95rem; color:var(--ink); cursor:pointer; box-shadow:var(--shadow);
+  }
+  .back:hover{border-color:var(--teal); color:var(--teal-d)}
+  .back:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
+  .lang-head{display:flex; align-items:center; gap:14px; margin:16px 2px 8px}
+  .lang-head .flags img{width:30px;height:20px}
+  .lang-head .nh{font-size:1.7rem; font-weight:800; line-height:1.15}
+  .lang-head .fh{color:var(--muted); font-size:.9rem}
+
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:18px; margin-top:14px; box-shadow:var(--shadow);
+  }
+  .eyebrow{font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--teal-d); font-weight:700}
+  .src{color:var(--muted); font-size:.92rem; margin:6px 0 12px}
+  .target{font-size:1.5rem; line-height:1.45; font-weight:600}
+  .target.rtl{direction:rtl; text-align:right}
+  .todo{font-size:1.02rem; color:var(--muted); font-style:italic}
+
+  .play{
+    margin-top:16px; display:inline-flex; align-items:center; gap:10px; cursor:pointer;
+    background:var(--teal); color:#fff; border:0; border-radius:12px; padding:13px 20px;
+    font-size:1.02rem; font-weight:600;
+  }
+  .play:hover{background:var(--teal-d)}
+  .play:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
+  .play.playing{background:var(--teal-d)}
+  .play[disabled]{background:var(--sand); color:var(--muted); cursor:default}
+  .noaudio{margin-top:14px; color:var(--muted); font-size:.88rem}
+  .aerr{margin-top:10px; color:var(--red); font-size:.86rem}
+
+  /* ---------- states ---------- */
+  .msg{background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:26px; margin-top:26px; box-shadow:var(--shadow)}
+  .msg h2{margin:0 0 8px; font-size:1.1rem}
+  .msg code{background:#f2efe6; padding:2px 7px; border-radius:6px; font-size:.9em}
+  .spin{width:26px;height:26px;border:3px solid var(--teal-soft);border-top-color:var(--teal);
+    border-radius:50%; animation:sp .8s linear infinite; margin:40px auto}
+  @keyframes sp{to{transform:rotate(360deg)}}
+
+  /* ---------- footer ---------- */
+  footer.foot{
+    max-width:1040px; margin:0 auto; padding:22px 18px 40px; color:var(--muted); font-size:.8rem;
+    border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:6px 16px; align-items:center;
+  }
+  footer.foot a{color:var(--teal-d)}
+  .warn{color:#8a5a00; background:#fdf3dd; border:1px solid #f0dcae;
+    border-radius:10px; padding:8px 12px; margin-top:12px; font-size:.85rem}
+
+  @media (max-width:520px){
+    .grid{grid-template-columns:repeat(auto-fill,minmax(44%,1fr))}
+    .target{font-size:1.32rem}
+    .lang-head .nh{font-size:1.4rem}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="mark" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M12 3c3 3.6 6 6.3 6 10a6 6 0 1 1-12 0c0-3.7 3-6.4 6-10z" fill="#147d6f"/>
+        <rect x="14.5" y="3" width="6" height="6" rx="1.2" fill="#fff" stroke="#e4002b" stroke-width="1.4"/>
+        <path d="M17.5 4.6v2.8M16.1 6h2.8" stroke="#e4002b" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="brand">
+      <h1>OASIS</h1>
+      <p><b>Croix-Rouge</b> · Choisissez une langue pour communiquer</p>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ========== ACCUEIL : choix de la langue ========== -->
+  <section id="home">
+    <div class="search">
+      <span class="ic" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </span>
+      <input id="q" type="search" autocomplete="off" placeholder="Chercher une langue (français ou nom local)…"
+             aria-label="Chercher une langue">
+    </div>
+    <p class="count" id="count"></p>
+    <div id="notice"></div>
+    <div id="grid" class="grid">
+      <div class="spin" role="status" aria-label="Chargement"></div>
+    </div>
+  </section>
+
+  <!-- ========== DÉTAIL : phrases d'une langue ========== -->
+  <section id="detail">
+    <button class="back" id="back">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      Toutes les langues
+    </button>
+    <div class="lang-head" id="langHead"></div>
+    <div id="cards"></div>
+  </section>
+
+</div>
+
+<footer class="foot">
+  <span>OASIS — Croix-Rouge française</span>
+  <span id="srcInfo"></span>
+</footer>
+
+<script>
+/* =======================================================================
+   RÉGLAGES — la seule partie à modifier si la base de données déménage.
+   ======================================================================= */
+var CONFIG = {
+  /* Identifiant du Google Sheet partagé (voir README, section « Google Drive »).
+     C'est la longue suite de caractères dans l'adresse du tableur, entre
+     /d/ et /edit :
+       docs.google.com/spreadsheets/d/[----- IDENTIFIANT -----]/edit
+     Laisser vide ("") pour utiliser le fichier local data.xlsx à la place. */
+  SHEET_ID: "",
+
+  /* Noms des deux onglets dans le tableur (à laisser tels quels normalement) */
+  SHEET_TRADUCTIONS: "Traductions",
+  SHEET_PHRASES:     "Phrases",
+
+  /* Fichier de secours, utilisé si le Google Sheet est vide ou injoignable */
+  FALLBACK_XLSX: "data.xlsx"
+};
+/* ===================================================================== */
+</script>
+
+<script>
+(function(){
+  "use strict";
+  var PHRASE_IDS = ["p1","p2","p3","p4","p5","p6"];
+  var LANGS = [], PHRASES = {};
+  var audio = new Audio();
+  var playingBtn = null;
+
+  var $ = function(s){ return document.querySelector(s); };
+  var grid=$("#grid"), homeEl=$("#home"), detEl=$("#detail"), noticeEl=$("#notice"),
+      qEl=$("#q"), countEl=$("#count"), cardsEl=$("#cards"), headEl=$("#langHead"),
+      srcEl=$("#srcInfo");
+
+  function norm(s){ return (s||"").toString().toLowerCase()
+    .normalize("NFD").replace(/[̀-ͯ]/g,""); }
+
+  function esc(s){ return (s||"").toString()
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;"); }
+
+  /* ---------- drapeaux : dossier local, CDN en secours ---------- */
+  window.flagFallback = function(img){
+    if(img.getAttribute("data-tried")){ img.style.display="none"; return; }
+    img.setAttribute("data-tried","1");
+    img.src = "https://flagcdn.com/w160/" + img.getAttribute("data-cc") + ".png";
+  };
+  function flagsHTML(codes){
+    if(!codes) return "";
+    return codes.toString().split(",").map(function(c){
+      c = c.trim().toLowerCase();
+      if(!/^[a-z]{2}$/.test(c)) return "";
+      return '<img loading="lazy" alt="" src="flags/'+c+'.png" data-cc="'+c+'" '+
+             'onerror="flagFallback(this)">';
+    }).join("");
+  }
+
+  /* ---------- lecture CSV (Google Sheets) ---------- */
+  /* Gère les guillemets, les virgules et les retours à la ligne dans une cellule. */
+  function parseCSV(text){
+    var rows=[], row=[], cur="", inQ=false, i=0;
+    text = text.replace(/^﻿/, "");
+    while(i < text.length){
+      var ch = text[i];
+      if(inQ){
+        if(ch === '"'){
+          if(text[i+1] === '"'){ cur += '"'; i += 2; continue; }
+          inQ = false; i++; continue;
+        }
+        cur += ch; i++; continue;
+      }
+      if(ch === '"'){ inQ = true; i++; continue; }
+      if(ch === ','){ row.push(cur); cur=""; i++; continue; }
+      if(ch === '\r'){ i++; continue; }
+      if(ch === '\n'){ row.push(cur); rows.push(row); row=[]; cur=""; i++; continue; }
+      cur += ch; i++;
+    }
+    if(cur.length || row.length){ row.push(cur); rows.push(row); }
+    return rows;
+  }
+
+  /* Transforme [[en-têtes],[ligne],…] en [{colonne: valeur}, …] */
+  function toObjects(rows){
+    if(!rows.length) return [];
+    var head = rows[0].map(function(h){ return (h||"").trim(); });
+    return rows.slice(1).map(function(r){
+      var o = {};
+      head.forEach(function(h, i){ if(h) o[h] = (r[i] || "").trim(); });
+      return o;
+    }).filter(function(o){
+      return Object.keys(o).some(function(k){ return o[k]; }); // ignore lignes vides
+    });
+  }
+
+  function sheetURL(name){
+    return "https://docs.google.com/spreadsheets/d/" + CONFIG.SHEET_ID +
+           "/gviz/tq?tqx=out:csv&headers=1&sheet=" + encodeURIComponent(name);
+  }
+
+  function fetchCSV(name){
+    return fetch(sheetURL(name), {cache:"no-store"}).then(function(res){
+      if(!res.ok) throw new Error("Google Sheets a répondu HTTP " + res.status);
+      return res.text();
+    }).then(function(txt){
+      /* Si le tableur n'est pas partagé publiquement, Google renvoie une page
+         HTML de connexion au lieu du CSV : on le détecte ici. */
+      if(/^\s*</.test(txt)) throw new Error("le tableur n'est pas partagé publiquement");
+      return toObjects(parseCSV(txt));
+    });
+  }
+
+  /* ---------- lecture du fichier Excel local (secours) ---------- */
+  function loadScript(src){
+    return new Promise(function(ok, ko){
+      var s = document.createElement("script");
+      s.src = src; s.onload = ok;
+      s.onerror = function(){ ko(new Error("bibliothèque de lecture Excel indisponible")); };
+      document.head.appendChild(s);
+    });
+  }
+
+  function fetchXLSX(){
+    return loadScript("https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js")
+      .then(function(){ return fetch(CONFIG.FALLBACK_XLSX, {cache:"no-store"}); })
+      .then(function(res){
+        if(!res.ok) throw new Error("HTTP " + res.status);
+        return res.arrayBuffer();
+      })
+      .then(function(buf){
+        var wb = XLSX.read(new Uint8Array(buf), {type:"array"});
+        return {
+          trad:    XLSX.utils.sheet_to_json(wb.Sheets[CONFIG.SHEET_TRADUCTIONS], {defval:""}),
+          phrases: XLSX.utils.sheet_to_json(wb.Sheets[CONFIG.SHEET_PHRASES],     {defval:""})
+        };
+      });
+  }
+
+  /* ---------- chargement ---------- */
+  function ingest(trad, phrases){
+    phrases.forEach(function(row){
+      var id = (row.id || "").toString().trim();
+      if(!id) return;
+      var keys = Object.keys(row);
+      PHRASES[id] = row[keys[1]] || "";   // 2e colonne = le texte français
+    });
+    LANGS = trad.filter(function(r){ return (r.code || "").toString().trim(); });
+  }
+
+  function boot(){
+    if(CONFIG.SHEET_ID){
+      Promise.all([fetchCSV(CONFIG.SHEET_TRADUCTIONS), fetchCSV(CONFIG.SHEET_PHRASES)])
+        .then(function(res){
+          ingest(res[0], res[1]);
+          if(!LANGS.length) throw new Error("aucune langue trouvée dans le tableur");
+          srcEl.innerHTML = '· Données : <a href="https://docs.google.com/spreadsheets/d/'+
+            esc(CONFIG.SHEET_ID)+'/edit" target="_blank" rel="noopener">Google Sheets</a> ' +
+            '<span style="opacity:.7">(modifiable par les bénévoles)</span>';
+          renderGrid("");
+        })
+        .catch(function(err){
+          /* Le tableur est injoignable → on repart sur la copie locale. */
+          bootLocal('Le tableur en ligne n’a pas pu être lu (' + esc(err.message||err) +
+                    '). Affichage de la dernière copie enregistrée dans le site.');
+        });
+    } else {
+      bootLocal("");
+    }
+  }
+
+  function bootLocal(warning){
+    fetchXLSX().then(function(d){
+      ingest(d.trad, d.phrases);
+      if(warning) noticeEl.innerHTML = '<p class="warn">⚠️ ' + warning + '</p>';
+      srcEl.textContent = "· Données : fichier data.xlsx du site";
+      renderGrid("");
+    }).catch(function(err){ showError(err); });
+  }
+
+  function showError(err){
+    var local = location.protocol === "file:";
+    grid.innerHTML =
+      '<div class="msg" style="grid-column:1/-1">'+
+      '<h2>Impossible de charger les données ('+esc(err&&err.message||err)+')</h2>'+
+      (local
+        ? '<p>La page a été ouverte directement (<code>file://</code>). Pour lire le fichier Excel, '+
+          'lancez un petit serveur local depuis le dossier du projet :</p>'+
+          '<p><code>python -m http.server 8000</code></p>'+
+          '<p>puis ouvrez <code>http://localhost:8000</code>. Une fois en ligne (GitHub Pages…), '+
+          'tout fonctionne sans cette étape.</p>'
+        : '<p>Vérifiez que le fichier <code>data.xlsx</code> se trouve bien à côté de '+
+          '<code>index.html</code>, ou que le Google Sheet est bien partagé en lecture '+
+          '« Tous les utilisateurs disposant du lien ».</p>')+
+      '</div>';
+    countEl.textContent = "";
+  }
+
+  /* ---------- grille ---------- */
+  function renderGrid(query){
+    var nq = norm(query);
+    var list = LANGS.filter(function(l){
+      return !nq || norm(l.langue_fr).indexOf(nq)>-1 || norm(l.langue_native).indexOf(nq)>-1;
+    });
+    countEl.textContent = list.length + (list.length>1 ? " langues" : " langue");
+    if(!list.length){
+      grid.innerHTML = '<p class="empty">Aucune langue ne correspond à « '+
+        esc(query||"")+' ».</p>';
+      return;
+    }
+    grid.innerHTML = list.map(function(l){
+      return '<button class="tile" data-code="'+esc(l.code)+'">'+
+        '<span class="flags">'+flagsHTML(l.drapeaux)+'</span>'+
+        '<span class="native"'+(l.sens==="rtl"?' dir="rtl"':'')+'>'+esc(l.langue_native)+'</span>'+
+        '<span class="fr">'+esc(l.langue_fr)+'</span>'+
+      '</button>';
+    }).join("");
+    Array.prototype.forEach.call(grid.querySelectorAll(".tile"), function(b){
+      b.addEventListener("click", function(){ openLang(b.getAttribute("data-code")); });
+    });
+  }
+
+  /* ---------- détail d'une langue ---------- */
+  function openLang(code){
+    stopAudio();
+    var l = LANGS.find(function(x){ return x.code===code; });
+    if(!l) return;
+    var rtl = l.sens==="rtl";
+    headEl.innerHTML =
+      '<span class="flags">'+flagsHTML(l.drapeaux)+'</span>'+
+      '<div><div class="nh"'+(rtl?' dir="rtl"':'')+'>'+esc(l.langue_native)+'</div>'+
+      '<div class="fh">'+esc(l.langue_fr)+'</div></div>';
+
+    cardsEl.innerHTML = PHRASE_IDS.map(function(pid, i){
+      var target = (l[pid]||"").toString().trim();
+      var apath  = (l["audio"+(i+1)]||"").toString().trim();
+      var body;
+      if(target){
+        body = '<div class="target'+(rtl?' rtl':'')+'">'+esc(target)+'</div>';
+      } else {
+        body = '<div class="todo">Traduction à ajouter</div>';
+      }
+      var ctrl;
+      if(target && apath){
+        ctrl = '<button class="play" data-src="'+esc(audioURL(apath))+'">'+
+               '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>'+
+               '<span class="lbl">Écouter</span></button>';
+      } else if(target){
+        ctrl = '<div class="noaudio">🎙️ Audio à enregistrer</div>';
+      } else {
+        ctrl = '';
+      }
+      return '<div class="card">'+
+        '<div class="eyebrow">Phrase '+(i+1)+'</div>'+
+        '<div class="src">'+esc(PHRASES[pid]||"")+'</div>'+
+        body + ctrl +
+      '</div>';
+    }).join("");
+
+    Array.prototype.forEach.call(cardsEl.querySelectorAll(".play"), function(btn){
+      btn.addEventListener("click", function(){ toggleAudio(btn); });
+    });
+
+    homeEl.style.display="none"; detEl.style.display="block";
+    window.scrollTo(0,0);
+    $("#back").focus();
+  }
+
+  /* ---------- audio ---------- */
+  /* Un lien de partage Google Drive collé tel quel ne se lit pas dans une page
+     web : on le convertit en lien de téléchargement direct. Ça dépanne, mais le
+     dossier audio/ du site reste plus fiable (voir README). */
+  function audioURL(p){
+    var m = p.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?[^"]*?id=)([-\w]{20,})/);
+    return m ? "https://drive.google.com/uc?export=download&id=" + m[1] : p;
+  }
+  function setBtn(btn, playing){
+    var lbl = btn.querySelector(".lbl");
+    btn.classList.toggle("playing", playing);
+    if(lbl) lbl.textContent = playing ? "Pause" : "Écouter";
+  }
+  function stopAudio(){
+    audio.pause();
+    if(playingBtn){ setBtn(playingBtn,false); playingBtn=null; }
+  }
+  function toggleAudio(btn){
+    var src = btn.getAttribute("data-src");
+    var old = btn.parentNode.querySelector(".aerr"); if(old) old.remove();
+    if(playingBtn===btn && !audio.paused){ stopAudio(); return; }
+    stopAudio();
+    audio.src = src;
+    audio.play().then(function(){
+      playingBtn=btn; setBtn(btn,true);
+    }).catch(function(){
+      var e=document.createElement("div"); e.className="aerr";
+      e.textContent="Audio indisponible (fichier "+src+" introuvable ou illisible).";
+      btn.insertAdjacentElement("afterend", e);
+    });
+  }
+  audio.addEventListener("ended", stopAudio);
+
+  /* ---------- navigation ---------- */
+  $("#back").addEventListener("click", function(){
+    stopAudio();
+    detEl.style.display="none"; homeEl.style.display="block";
+    qEl.focus();
+  });
+  qEl.addEventListener("input", function(){ renderGrid(qEl.value); });
+
+  boot();
+})();
+</script>
+</body>
+</html>

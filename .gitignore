@@ -1,0 +1,8 @@
+# Fichiers temporaires Excel
+~$*
+.~lock.*
+
+# Systeme
+.DS_Store
+Thumbs.db
+desktop.ini
