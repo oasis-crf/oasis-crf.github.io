@@ -16,8 +16,9 @@ et on peut écouter l'enregistrement audio de chacune.
 
 ```
 index.html            ← l'application (ne demande aucune installation)
+logo.png              ← le logo affiché dans l'en-tête du site
 data_traduction.xlsx  ← la base de données : langues, drapeaux, traductions, audio
-flags/                ← les drapeaux (46 pays), stockés en local pour la rapidité
+flags/                ← les drapeaux (48), stockés en local pour la rapidité
 audio/                ← les fichiers son (.mp3), à déposer ici
 README.md             ← ce guide
 ```
@@ -45,6 +46,8 @@ Tout se fait dans le tableur. **Il n'y a pas de code à toucher.**
 - `Drapeaux` : codes pays séparés par des virgules, ex. `pt,br,ao`
   (codes ISO à 2 lettres : `fr`, `gb`, `sd`…). Laissez vide si aucun ne convient.
   Un drapeau absent du dossier `flags/` est téléchargé automatiquement, rien à faire.
+  Deux exceptions, pour des drapeaux sans pays : `kurd` (Kurdistan) et `tibet`.
+  Ceux-là n'existent sur aucun serveur extérieur, ils sont dans `flags/`.
 - `Sens` : `ltr` par défaut, ou `rtl` pour les langues qui s'écrivent de droite à gauche
   (arabe, hébreu, farsi, dari, ourdou, pachto…).
 - `Statut1`…`Statut6` : où en est chaque phrase, à choisir dans la liste déroulante.

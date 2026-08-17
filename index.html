@@ -6,10 +6,28 @@
 <title>OASIS — Communiquer dans votre langue</title>
 <style>
   :root{
-    --ink:#17211d; --muted:#5f6b66; --bg:#fcfbf8; --card:#ffffff;
-    --teal:#147d6f; --teal-d:#0e5f55; --teal-soft:#e4efec; --sand:#efe9db;
-    --line:#e8e3d6; --red:#e4002b; --focus:#0e5f55;
-    --radius:16px; --shadow:0 1px 2px rgba(23,33,29,.05), 0 6px 20px rgba(23,33,29,.05);
+    /* ---- Charte graphique OASIS : les 5 couleurs du logo ---- */
+    --turquoise:#6DC6C2;
+    --orange:#ED8F45;
+    --beige:#EDCDB8;
+    --olive:#9DA679;
+    --jaune:#F6E56F;
+
+    /* ---- Déclinaisons foncées ----
+       Les 5 couleurs ci-dessus sont trop claires pour porter du texte :
+       sur blanc elles plafonnent à 2,6 de contraste, or il en faut 4,5
+       pour rester lisible. On les garde donc pour les aplats, les
+       bordures et les touches de couleur, et on utilise ces versions
+       foncées dès qu'il s'agit de texte ou de bouton. */
+    --turquoise-f:#1F7A74;   /* 5,1 sur blanc  */
+    --turquoise-ff:#17615C;  /* 7,2 sur blanc  */
+    --orange-f:#A85A17;      /* 5,1 sur blanc  */
+    --olive-f:#5E6544;       /* 6,1 sur blanc  */
+
+    /* ---- Neutres, réchauffés pour s'accorder au beige ---- */
+    --ink:#2A2723; --muted:#6B6459; --bg:#fbf6f0; --card:#ffffff;
+    --turquoise-pale:#e3f2f1; --line:#e7dacb; --focus:#17615C;
+    --radius:16px; --shadow:0 1px 2px rgba(42,39,35,.05), 0 6px 20px rgba(42,39,35,.06);
   }
   *{box-sizing:border-box}
   html,body{margin:0}
@@ -22,16 +40,18 @@
 
   /* ---------- header ---------- */
   header.top{
-    background:linear-gradient(180deg,#fff, #fbfaf6);
+    background:#ffffff;
     border-bottom:1px solid var(--line); position:sticky; top:0; z-index:20;
   }
-  .top-in{max-width:1040px; margin:0 auto; padding:16px 18px; display:flex; align-items:center; gap:14px}
-  .mark{width:40px;height:40px;border-radius:12px;background:var(--teal-soft);
-    display:grid;place-items:center;flex:0 0 auto}
-  .mark svg{display:block}
-  .brand h1{font-size:1.18rem; margin:0; letter-spacing:.2px}
-  .brand p{margin:1px 0 0; color:var(--muted); font-size:.82rem}
-  .brand b{color:var(--red)}
+  .top-in{max-width:1040px; margin:0 auto; padding:14px 18px;
+    display:flex; align-items:center; flex-wrap:wrap; gap:6px 16px}
+  /* Le logo est un JPEG sur fond blanc, sans transparence : l'en-tête est donc
+     en blanc franc, pour que ce fond ne se voie pas. Ne pas y mettre de teinte
+     ni de dégradé, un liseré blanc apparaîtrait autour du logo. */
+  .brand{margin:0; line-height:0; flex:0 0 auto}
+  .brand img{height:46px; width:auto; display:block}
+  .tagline{margin:0; color:var(--muted); font-size:.86rem}
+  .tagline b{color:var(--orange-f)}
 
   /* ---------- search ---------- */
   .search{margin:22px 0 8px; position:relative}
@@ -39,7 +59,7 @@
     width:100%; font-size:1.05rem; padding:15px 16px 15px 46px; border-radius:14px;
     border:1px solid var(--line); background:var(--card); color:var(--ink); box-shadow:var(--shadow);
   }
-  .search input:focus{outline:3px solid var(--teal-soft); border-color:var(--teal)}
+  .search input:focus{outline:3px solid var(--turquoise-pale); border-color:var(--turquoise-f)}
   .search .ic{position:absolute; left:15px; top:50%; transform:translateY(-50%); color:var(--muted)}
   .count{color:var(--muted); font-size:.82rem; margin:6px 2px 0}
 
@@ -50,7 +70,7 @@
     padding:16px 14px; text-align:left; cursor:pointer; box-shadow:var(--shadow);
     display:flex; flex-direction:column; gap:9px; min-height:112px; transition:transform .12s, border-color .12s, box-shadow .12s;
   }
-  .tile:hover{transform:translateY(-2px); border-color:var(--teal); box-shadow:0 8px 26px rgba(20,125,111,.14)}
+  .tile:hover{transform:translateY(-2px); border-color:var(--turquoise-f); box-shadow:0 8px 26px rgba(31,122,116,.16)}
   .tile:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
   .flags{display:flex; gap:5px; flex-wrap:wrap; min-height:16px}
   /* Les drapeaux n'ont pas tous les mêmes proportions (le Royaume-Uni et le
@@ -72,7 +92,7 @@
     border-radius:12px; border:1px solid var(--line); background:var(--card);
     font-size:.95rem; color:var(--ink); cursor:pointer; box-shadow:var(--shadow);
   }
-  .back:hover{border-color:var(--teal); color:var(--teal-d)}
+  .back:hover{border-color:var(--turquoise-f); color:var(--turquoise-ff)}
   .back:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
   .lang-head{display:flex; align-items:center; gap:14px; margin:16px 2px 8px}
   .lang-head .flags img{height:20px; width:auto; max-width:46px}
@@ -83,7 +103,7 @@
     background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
     padding:18px; margin-top:14px; box-shadow:var(--shadow);
   }
-  .eyebrow{font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--teal-d); font-weight:700}
+  .eyebrow{font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--turquoise-ff); font-weight:700}
   .src{color:var(--muted); font-size:.92rem; margin:6px 0 12px}
   .target{font-size:1.5rem; line-height:1.45; font-weight:600}
   .target.rtl{direction:rtl; text-align:right}
@@ -91,22 +111,22 @@
 
   .play{
     margin-top:16px; display:inline-flex; align-items:center; gap:10px; cursor:pointer;
-    background:var(--teal); color:#fff; border:0; border-radius:12px; padding:13px 20px;
+    background:var(--turquoise-f); color:#fff; border:0; border-radius:12px; padding:13px 20px;
     font-size:1.02rem; font-weight:600;
   }
-  .play:hover{background:var(--teal-d)}
+  .play:hover{background:var(--turquoise-ff)}
   .play:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
-  .play.playing{background:var(--teal-d)}
-  .play[disabled]{background:var(--sand); color:var(--muted); cursor:default}
+  .play.playing{background:var(--turquoise-ff)}
+  .play[disabled]{background:var(--beige); color:var(--muted); cursor:default}
   .noaudio{margin-top:14px; color:var(--muted); font-size:.88rem}
-  .aerr{margin-top:10px; color:var(--red); font-size:.86rem}
+  .aerr{margin-top:10px; color:var(--orange-f); font-size:.86rem}
 
   /* ---------- states ---------- */
   .msg{background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
     padding:26px; margin-top:26px; box-shadow:var(--shadow)}
   .msg h2{margin:0 0 8px; font-size:1.1rem}
-  .msg code{background:#f2efe6; padding:2px 7px; border-radius:6px; font-size:.9em}
-  .spin{width:26px;height:26px;border:3px solid var(--teal-soft);border-top-color:var(--teal);
+  .msg code{background:#f6ece1; padding:2px 7px; border-radius:6px; font-size:.9em}
+  .spin{width:26px;height:26px;border:3px solid var(--turquoise-pale);border-top-color:var(--turquoise-f);
     border-radius:50%; animation:sp .8s linear infinite; margin:40px auto}
   @keyframes sp{to{transform:rotate(360deg)}}
 
@@ -115,14 +135,16 @@
     max-width:1040px; margin:0 auto; padding:22px 18px 40px; color:var(--muted); font-size:.8rem;
     border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:6px 16px; align-items:center;
   }
-  footer.foot a{color:var(--teal-d)}
-  .warn{color:#8a5a00; background:#fdf3dd; border:1px solid #f0dcae;
+  footer.foot a{color:var(--turquoise-ff)}
+  .warn{color:#7a4a10; background:#fdf1e2; border:1px solid #efd3b4;
     border-radius:10px; padding:8px 12px; margin-top:12px; font-size:.85rem}
 
   @media (max-width:520px){
     .grid{grid-template-columns:repeat(auto-fill,minmax(44%,1fr))}
     .target{font-size:1.32rem}
     .lang-head .nh{font-size:1.4rem}
+    .brand img{height:38px}
+    .tagline{font-size:.8rem}
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
 </style>
@@ -130,17 +152,8 @@
 <body>
 <header class="top">
   <div class="top-in">
-    <div class="mark" aria-hidden="true">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-        <path d="M12 3c3 3.6 6 6.3 6 10a6 6 0 1 1-12 0c0-3.7 3-6.4 6-10z" fill="#147d6f"/>
-        <rect x="14.5" y="3" width="6" height="6" rx="1.2" fill="#fff" stroke="#e4002b" stroke-width="1.4"/>
-        <path d="M17.5 4.6v2.8M16.1 6h2.8" stroke="#e4002b" stroke-width="1.4" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <div class="brand">
-      <h1>OASIS</h1>
-      <p><b>Croix-Rouge</b> · Choisissez une langue pour communiquer</p>
-    </div>
+    <h1 class="brand"><img src="logo.png" alt="L'OASIS" width="533" height="117"></h1>
+    <p class="tagline"><b>Croix-Rouge</b> · Choisissez une langue pour communiquer</p>
   </div>
 </header>
 
@@ -228,16 +241,22 @@ var CONFIG = {
     .replace(/"/g,"&quot;"); }
 
   /* ---------- drapeaux : dossier local, CDN en secours ---------- */
+  /* Le secours en ligne ne vaut que pour les codes pays ISO à 2 lettres. Les
+     drapeaux sans pays (« kurd », « tibet ») n'existent sur aucun CDN : ils
+     sont forcément dans flags/, et s'ils manquent on n'affiche rien. */
   window.flagFallback = function(img){
-    if(img.getAttribute("data-tried")){ img.style.display="none"; return; }
+    var cc = img.getAttribute("data-cc");
+    if(img.getAttribute("data-tried") || cc.length !== 2){
+      img.style.display = "none"; return;
+    }
     img.setAttribute("data-tried","1");
-    img.src = "https://flagcdn.com/w160/" + img.getAttribute("data-cc") + ".png";
+    img.src = "https://flagcdn.com/w160/" + cc + ".png";
   };
   function flagsHTML(codes){
     if(!codes) return "";
     return codes.toString().split(",").map(function(c){
       c = c.trim().toLowerCase();
-      if(!/^[a-z]{2}$/.test(c)) return "";
+      if(!/^[a-z]{2,8}$/.test(c)) return "";
       return '<img loading="lazy" alt="" src="flags/'+c+'.png" data-cc="'+c+'" '+
              'onerror="flagFallback(this)">';
     }).join("");

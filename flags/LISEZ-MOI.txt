@@ -6,3 +6,8 @@ reste rapide et fonctionne même sans connexion vers l'extérieur.
 Si vous ajoutez une langue avec un code pays qui n'est pas dans ce dossier, le site
 ira chercher le drapeau sur flagcdn.com automatiquement — rien à faire. Pour l'ajouter
 ici quand même, téléchargez https://flagcdn.com/w160/XX.png et déposez-le sous XX.png
+
+Deux drapeaux ne correspondent à aucun pays et ne sont donc sur aucun CDN :
+kurd.png (Kurdistan) et tibet.png (Tibet). Ils viennent de Wikimedia Commons.
+Leur code s'écrit en toutes lettres dans la colonne Drapeaux du tableur
+(« kurd », « tibet ») au lieu d'un code ISO à 2 lettres.
