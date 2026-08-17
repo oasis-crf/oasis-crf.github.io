@@ -12,8 +12,10 @@ TRADUCTION*.pdf
 TRADUCTION*.docx
 A-VERIFIER.txt
 
-# Archives Google Drive (deja extraites)
+# Archives Google Drive des enregistrements (deja extraites)
 audio/*.zip
+*.zip
+Imports enregistrements/
 
 # Logos d'origine (JPEG) : ce sont les .png qui sont utilisés
 logo.jfif
