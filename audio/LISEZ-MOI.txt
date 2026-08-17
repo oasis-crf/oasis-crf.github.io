@@ -4,7 +4,7 @@ Nommage : CODE_pN.mp3
   es_p3.mp3  =  phrase 3 en espagnol
   ar-sd_p1.mp3  =  phrase 1 en arabe soudanais
 
-Ensuite, dans la base de données (Google Sheet ou data.xlsx), colonne « audio3 »
+Ensuite, dans la base de données (Google Sheet ou data_traduction.xlsx), colonne « audio3 »
 de la ligne « es », écrivez :  audio/es_p3.mp3
 
 Le bouton « Écouter » apparaît alors tout seul sur le site.

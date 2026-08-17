@@ -53,7 +53,13 @@
   .tile:hover{transform:translateY(-2px); border-color:var(--teal); box-shadow:0 8px 26px rgba(20,125,111,.14)}
   .tile:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
   .flags{display:flex; gap:5px; flex-wrap:wrap; min-height:16px}
-  .flags img{width:24px; height:16px; object-fit:cover; border-radius:3px; box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+  /* Les drapeaux n'ont pas tous les mêmes proportions (le Royaume-Uni et le
+     Soudan sont en 2:1, le Niger presque carré…). On fixe donc la hauteur et on
+     laisse la largeur s'adapter : chaque drapeau garde ses proportions et n'est
+     jamais rogné. max-width protège d'un format extrême, contain évite alors
+     toute déformation. */
+  .flags img{height:16px; width:auto; max-width:36px; object-fit:contain;
+    border-radius:3px; box-shadow:0 0 0 1px rgba(0,0,0,.08)}
   .native{font-size:1.22rem; font-weight:700; line-height:1.25}
   .fr{font-size:.82rem; color:var(--muted); margin-top:auto}
 
@@ -69,7 +75,7 @@
   .back:hover{border-color:var(--teal); color:var(--teal-d)}
   .back:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
   .lang-head{display:flex; align-items:center; gap:14px; margin:16px 2px 8px}
-  .lang-head .flags img{width:30px;height:20px}
+  .lang-head .flags img{height:20px; width:auto; max-width:46px}
   .lang-head .nh{font-size:1.7rem; font-weight:800; line-height:1.15}
   .lang-head .fh{color:var(--muted); font-size:.9rem}
 
@@ -183,7 +189,7 @@ var CONFIG = {
      C'est la longue suite de caractères dans l'adresse du tableur, entre
      /d/ et /edit :
        docs.google.com/spreadsheets/d/[----- IDENTIFIANT -----]/edit
-     Laisser vide ("") pour utiliser le fichier local data.xlsx à la place. */
+     Laisser vide ("") pour utiliser le fichier local data_traduction.xlsx à la place. */
   SHEET_ID: "",
 
   /* Noms des deux onglets dans le tableur (à laisser tels quels normalement) */
@@ -191,7 +197,7 @@ var CONFIG = {
   SHEET_PHRASES:     "Phrases",
 
   /* Fichier de secours, utilisé si le Google Sheet est vide ou injoignable */
-  FALLBACK_XLSX: "data.xlsx"
+  FALLBACK_XLSX: "data_traduction.xlsx"
 };
 /* ===================================================================== */
 </script>
@@ -318,7 +324,20 @@ var CONFIG = {
   }
 
   /* ---------- chargement ---------- */
+  /* Les en-têtes du tableur peuvent s'écrire « Code » ou « code » : on ramène
+     tout en minuscules, pour qu'une majuscule ajoutée dans le tableur ne casse
+     jamais l'affichage. */
+  function clesEnMinuscules(rows){
+    return rows.map(function(row){
+      var o = {};
+      Object.keys(row).forEach(function(k){ o[k.trim().toLowerCase()] = row[k]; });
+      return o;
+    });
+  }
+
   function ingest(trad, phrases){
+    trad    = clesEnMinuscules(trad);
+    phrases = clesEnMinuscules(phrases);
     phrases.forEach(function(row){
       var id = (row.id || "").toString().trim();
       if(!id) return;
@@ -373,7 +392,7 @@ var CONFIG = {
           '<p><code>python -m http.server 8000</code></p>'+
           '<p>puis ouvrez <code>http://localhost:8000</code>. Une fois en ligne (GitHub Pages…), '+
           'tout fonctionne sans cette étape.</p>'
-        : '<p>Vérifiez que le fichier <code>data.xlsx</code> se trouve bien à côté de '+
+        : '<p>Vérifiez que le fichier <code>data_traduction.xlsx</code> se trouve bien à côté de '+
           '<code>index.html</code>, ou que le Google Sheet est bien partagé en lecture '+
           '« Tous les utilisateurs disposant du lien ».</p>')+
       '</div>';

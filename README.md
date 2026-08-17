@@ -15,11 +15,11 @@ et on peut écouter l'enregistrement audio de chacune.
 ## Contenu du dossier
 
 ```
-index.html      ← l'application (ne demande aucune installation)
-data.xlsx       ← la base de données : langues, drapeaux, traductions, audio
-flags/          ← les drapeaux (43 pays), stockés en local pour la rapidité
-audio/          ← les fichiers son (.mp3), à déposer ici
-README.md       ← ce guide
+index.html            ← l'application (ne demande aucune installation)
+data_traduction.xlsx  ← la base de données : langues, drapeaux, traductions, audio
+flags/                ← les drapeaux (46 pays), stockés en local pour la rapidité
+audio/                ← les fichiers son (.mp3), à déposer ici
+README.md             ← ce guide
 ```
 
 ## Utilisation au quotidien
@@ -34,50 +34,60 @@ traduction en grand (pour la personne), et un bouton **Écouter** quand l'audio 
 
 Tout se fait dans le tableur. **Il n'y a pas de code à toucher.**
 
-- Onglet **« Traductions »** : **une ligne par langue**. Remplissez les colonnes `p1`…`p6`
-  avec les traductions. **Une cellule jaune = traduction encore à faire.**
-- `code` : identifiant court et unique (`pt`, `ar-sd`…). Sert à nommer les fichiers
+- Onglet **« Traductions »** : **une ligne par langue**. Remplissez les colonnes `P1`…`P6`
+  avec les traductions.
+- `Code` : identifiant court et unique (`pt`, `ar-sd`…). Sert à nommer les fichiers
   audio — ne le changez plus une fois fixé.
-- `langue_native` : le nom de la langue dans sa propre écriture (c'est ce que la personne
+- `Langue_native` : le nom de la langue dans sa propre écriture (c'est ce que la personne
   reconnaît, à soigner).
-- `drapeaux` : codes pays séparés par des virgules, ex. `pt,br,ao`
+- `Pays` : les pays concernés en toutes lettres. Sert à s'y retrouver dans le tableur ;
+  le site, lui, n'affiche que les drapeaux.
+- `Drapeaux` : codes pays séparés par des virgules, ex. `pt,br,ao`
   (codes ISO à 2 lettres : `fr`, `gb`, `sd`…). Laissez vide si aucun ne convient.
   Un drapeau absent du dossier `flags/` est téléchargé automatiquement, rien à faire.
-- `sens` : `ltr` par défaut, ou `rtl` pour les langues qui s'écrivent de droite à gauche
+- `Sens` : `ltr` par défaut, ou `rtl` pour les langues qui s'écrivent de droite à gauche
   (arabe, hébreu, farsi, dari, ourdou, pachto…).
+- `Statut1`…`Statut6` : où en est chaque phrase, à choisir dans la liste déroulante.
+  **« Ancienne version »** = la traduction existe mais suit l'ancien texte français
+  de la phrase 5 → elle est à refaire (voir l'onglet *Mode d'emploi*).
+- `Contact` : la personne à qui demander ou redemander la traduction.
+
 - L'onglet **« Mode d'emploi »** rappelle tout ça dans le fichier lui-même.
+
+> La casse des en-têtes n'a pas d'importance pour le site (`Code` ou `code`), mais
+> l'orthographe, si : ne renommez pas les colonnes.
 
 Rechargez la page : c'est à jour.
 
 **Où modifier, selon la configuration :**
 
 - *Tableur sur Google Sheets* (voir §3) → modifiez en ligne, c'est immédiat.
-- *Pas encore configuré* → modifiez `data.xlsx` et renvoyez-le sur GitHub
-  (dépôt → `data.xlsx` → *Add file* → *Upload files* → glisser la nouvelle version).
+- *Pas encore configuré* → modifiez `data_traduction.xlsx` et renvoyez-le sur GitHub
+  (dépôt → `data_traduction.xlsx` → *Add file* → *Upload files* → glisser la nouvelle version).
 
 # 2. Ajouter un enregistrement audio
 
 1. Nommez le fichier ainsi : **`CODE_pN.mp3`** — ex. `es_p3.mp3` (phrase 3 en espagnol).
 2. Déposez-le dans le dossier **`audio/`** du dépôt GitHub.
-3. Dans le tableur, colonne `audio3` de la ligne `es`, écrivez : `audio/es_p3.mp3`.
+3. Dans le tableur, colonne `Audio3` de la ligne `es`, écrivez : `audio/es_p3.mp3`.
 
 Le bouton **Écouter** apparaît automatiquement. Tant qu'une case audio est vide,
 aucun bouton ne s'affiche (mention « Audio à enregistrer »).
 
 > **Et les liens Google Drive ?** Si un bénévole colle un lien de partage Drive dans une
-> colonne `audioN`, le site le convertit tout seul en lecture directe. **Ça marche
+> colonne `AudioN`, le site le convertit tout seul en lecture directe. **Ça marche
 > souvent, mais pas toujours** : Google intercale parfois une page d'avertissement, et
 > limite les téléchargements d'un fichier très consulté. Pour les enregistrements
 > définitifs, déposez les `.mp3` dans `audio/` : c'est plus rapide et toujours fiable.
 
 # 3. Mettre les traductions sur Google Drive *(optionnel, non configuré)*
 
-Aujourd'hui le site lit `data.xlsx`, qui est *dans* le site : le modifier demande de
+Aujourd'hui le site lit `data_traduction.xlsx`, qui est *dans* le site : le modifier demande de
 repasser par GitHub. Pour que **plusieurs bénévoles corrigent les traductions
 directement**, on met la base sur Google Sheets.
 
 1. **Importer le tableur.** [drive.google.com](https://drive.google.com) → **Nouveau** →
-   *Importer un fichier* → `data.xlsx`. Puis clic droit → *Ouvrir avec* →
+   *Importer un fichier* → `data_traduction.xlsx`. Puis clic droit → *Ouvrir avec* →
    **Google Sheets** → Fichier → **Enregistrer au format Google Sheets**.
    **Ne renommez pas les onglets** (`Phrases`, `Traductions`) : le site les cherche par
    leur nom.
@@ -105,10 +115,10 @@ directement**, on met la base sur Google Sheets.
    Enregistrez et renvoyez le fichier sur GitHub. Une minute plus tard, c'est actif :
    en bas du site s'affiche « Données : Google Sheets » avec un lien vers le tableur.
 
-**Si Google est injoignable**, le site repasse automatiquement sur `data.xlsx` et affiche
+**Si Google est injoignable**, le site repasse automatiquement sur `data_traduction.xlsx` et affiche
 un bandeau orange. Il ne tombe jamais en panne. Pensez donc de temps en temps à
 retélécharger le Google Sheet (Fichier → Télécharger → *Microsoft Excel*) et à remplacer
-`data.xlsx` dans le dépôt, pour garder la copie de secours à jour.
+`data_traduction.xlsx` dans le dépôt, pour garder la copie de secours à jour.
 
 # 4. Tester sur votre ordinateur
 
