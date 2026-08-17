@@ -24,9 +24,13 @@
     --orange-f:#A85A17;      /* 5,1 sur blanc  */
     --olive-f:#5E6544;       /* 6,1 sur blanc  */
 
-    /* ---- Neutres, réchauffés pour s'accorder au beige ---- */
-    --ink:#2A2723; --muted:#6B6459; --bg:#fbf6f0; --card:#ffffff;
-    --turquoise-pale:#e3f2f1; --line:#e7dacb; --focus:#17615C;
+    /* ---- Neutres ----
+       Le fond de page est le beige de la charte, les cartes restent
+       blanches : c'est ce qui les détache. Les traits de séparation sont
+       en noir très transparent plutôt qu'en beige plus foncé, pour rester
+       visibles aussi bien sur le beige que sur le blanc des cartes. */
+    --ink:#2A2723; --muted:#5C564C; --bg:var(--beige); --card:#ffffff;
+    --turquoise-pale:#e3f2f1; --line:rgba(42,39,35,.16); --focus:#17615C;
     --radius:16px; --shadow:0 1px 2px rgba(42,39,35,.05), 0 6px 20px rgba(42,39,35,.06);
   }
   *{box-sizing:border-box}
