@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OASIS — Communiquer dans votre langue</title>
+<title>OASIS - Communiquer dans votre langue</title>
 <style>
   :root{
     /* ---- Charte graphique OASIS : les 5 couleurs du logo ---- */
@@ -22,6 +22,7 @@
     --turquoise-f:#1F7A74;   /* 5,1 sur blanc  */
     --turquoise-ff:#17615C;  /* 7,2 sur blanc  */
     --orange-f:#A85A17;      /* 5,1 sur blanc  */
+    --orange-ff:#8C4A12;     /* 6,8 sur blanc  */
     --olive-f:#5E6544;       /* 6,1 sur blanc  */
 
     /* ---- Neutres ----
@@ -52,12 +53,12 @@
   /* Le logo est un JPEG sur fond blanc, sans transparence : l'en-tête est donc
      en blanc franc, pour que ce fond ne se voie pas. Ne pas y mettre de teinte
      ni de dégradé, un liseré blanc apparaîtrait autour du logo. */
+  /* Les deux logos sont sur fond blanc comme l'en-tête : ils s'y fondent
+     sans détourage. Même hauteur pour les deux, c'est ce qui les pose
+     comme une signature commune plutôt qu'un logo et son accessoire. */
   .brand{margin:0; line-height:0; flex:0 0 auto}
-  .brand img{height:46px; width:auto; display:block}
+  .brand img, .crf{height:46px; width:auto; display:block; flex:0 0 auto}
   .tagline{margin:0; color:var(--muted); font-size:.86rem}
-  /* Le logo Croix-Rouge remplace le mot : il est sur fond blanc comme
-     l'en-tête, donc il s'y fond sans détourage. */
-  .tagline img{height:28px; width:auto; vertical-align:middle; margin-right:1px}
 
   /* ---------- search ---------- */
   .search{margin:22px 0 8px; position:relative}
@@ -117,14 +118,16 @@
   .target.rtl{direction:rtl; text-align:right}
   .todo{font-size:1.02rem; color:var(--muted); font-style:italic}
 
+  /* Écouter est la seule action de la page : il prend l'orange de la
+     charte, la couleur qui ressort le plus sur le beige et le blanc. */
   .play{
     margin-top:16px; display:inline-flex; align-items:center; gap:10px; cursor:pointer;
-    background:var(--turquoise-f); color:#fff; border:0; border-radius:12px; padding:13px 20px;
+    background:var(--orange-f); color:#fff; border:0; border-radius:12px; padding:13px 20px;
     font-size:1.02rem; font-weight:600;
   }
-  .play:hover{background:var(--turquoise-ff)}
+  .play:hover{background:var(--orange-ff)}
   .play:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
-  .play.playing{background:var(--turquoise-ff)}
+  .play.playing{background:var(--orange-ff)}
   .play[disabled]{background:var(--beige); color:var(--muted); cursor:default}
   .noaudio{margin-top:14px; color:var(--muted); font-size:.88rem}
   .aerr{margin-top:10px; color:var(--orange-f); font-size:.86rem}
@@ -151,7 +154,7 @@
     .grid{grid-template-columns:repeat(auto-fill,minmax(44%,1fr))}
     .target{font-size:1.32rem}
     .lang-head .nh{font-size:1.4rem}
-    .brand img{height:38px}
+    .brand img, .crf{height:38px}
     .tagline{font-size:.8rem}
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
@@ -161,8 +164,8 @@
 <header class="top">
   <div class="top-in">
     <h1 class="brand"><img src="logo.png" alt="L'OASIS" width="533" height="117"></h1>
-    <p class="tagline"><img src="logo-crf.png" alt="Croix-Rouge française"
-      width="120" height="120"> · Choisissez une langue pour communiquer</p>
+    <img class="crf" src="logo-crf.png" alt="Croix-Rouge française" width="120" height="120">
+    <p class="tagline">Choisissez une langue pour communiquer</p>
   </div>
 </header>
 
