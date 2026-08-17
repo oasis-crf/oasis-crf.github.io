@@ -55,7 +55,9 @@
   .brand{margin:0; line-height:0; flex:0 0 auto}
   .brand img{height:46px; width:auto; display:block}
   .tagline{margin:0; color:var(--muted); font-size:.86rem}
-  .tagline b{color:var(--orange-f)}
+  /* Le logo Croix-Rouge remplace le mot : il est sur fond blanc comme
+     l'en-tête, donc il s'y fond sans détourage. */
+  .tagline img{height:28px; width:auto; vertical-align:middle; margin-right:1px}
 
   /* ---------- search ---------- */
   .search{margin:22px 0 8px; position:relative}
@@ -107,7 +109,9 @@
     background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
     padding:18px; margin-top:14px; box-shadow:var(--shadow);
   }
-  .eyebrow{font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--turquoise-ff); font-weight:700}
+  /* « PHRASE 1 » : le vert de la charte, dans sa version foncée — tel quel
+     (#9DA679) il n'est qu'à 2,6 de contraste, illisible en si petit. */
+  .eyebrow{font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--olive-f); font-weight:700}
   .src{color:var(--muted); font-size:.92rem; margin:6px 0 12px}
   .target{font-size:1.5rem; line-height:1.45; font-weight:600}
   .target.rtl{direction:rtl; text-align:right}
@@ -157,7 +161,8 @@
 <header class="top">
   <div class="top-in">
     <h1 class="brand"><img src="logo.png" alt="L'OASIS" width="533" height="117"></h1>
-    <p class="tagline"><b>Croix-Rouge</b> · Choisissez une langue pour communiquer</p>
+    <p class="tagline"><img src="logo-crf.png" alt="Croix-Rouge française"
+      width="120" height="120"> · Choisissez une langue pour communiquer</p>
   </div>
 </header>
 
@@ -193,7 +198,7 @@
 </div>
 
 <footer class="foot">
-  <span>OASIS — Croix-Rouge française</span>
+  <span>OASIS - Croix-Rouge française</span>
   <span id="srcInfo"></span>
 </footer>
 

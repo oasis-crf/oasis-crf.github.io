@@ -16,7 +16,8 @@ et on peut écouter l'enregistrement audio de chacune.
 
 ```
 index.html            ← l'application (ne demande aucune installation)
-logo.png              ← le logo affiché dans l'en-tête du site
+logo.png              ← le logo OASIS, dans l'en-tête du site
+logo-crf.png          ← le logo Croix-Rouge, à côté
 data_traduction.xlsx  ← la base de données : langues, drapeaux, traductions, audio
 flags/                ← les drapeaux (48), stockés en local pour la rapidité
 audio/                ← les fichiers son (.mp3), à déposer ici

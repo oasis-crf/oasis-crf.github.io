@@ -15,5 +15,6 @@ A-VERIFIER.txt
 # Archives Google Drive (deja extraites)
 audio/*.zip
 
-# Logo d'origine (JPEG) : c'est logo.png qui est utilisé
+# Logos d'origine (JPEG) : ce sont les .png qui sont utilisés
 logo.jfif
+logo-crf.jpg
