@@ -51,9 +51,13 @@ Tout se fait dans le tableur. **Il n'y a pas de code à toucher.**
   Ceux-là n'existent sur aucun serveur extérieur, ils sont dans `flags/`.
 - `Sens` : `ltr` par défaut, ou `rtl` pour les langues qui s'écrivent de droite à gauche
   (arabe, hébreu, farsi, dari, ourdou, pachto…).
-- `Statut1`…`Statut6` : où en est chaque phrase, à choisir dans la liste déroulante.
+- `StatutTrad1`…`StatutTrad6` : où en est la **traduction écrite** de chaque phrase,
+  à choisir dans la liste déroulante.
   **« Ancienne version »** = la traduction existe mais suit l'ancien texte français
   de la phrase 5 → elle est à refaire (voir l'onglet *Mode d'emploi*).
+- `StatutAudio1`…`StatutAudio6` : où en est l'**enregistrement audio** de chaque phrase
+  (`Non enregistré` / `Ancienne version` / `Enregistré`). Les deux avancements se suivent
+  séparément : une langue peut avoir l'audio sans le texte, et l'inverse.
 - `Contact` : la personne à qui demander ou redemander la traduction.
 
 - L'onglet **« Mode d'emploi »** rappelle tout ça dans le fichier lui-même.
@@ -73,7 +77,8 @@ Rechargez la page : c'est à jour.
 
 1. Nommez le fichier ainsi : **`CODE_pN.mp3`** — ex. `es_p3.mp3` (phrase 3 en espagnol).
 2. Déposez-le dans le dossier **`audio/`** du dépôt GitHub.
-3. Dans le tableur, colonne `Audio3` de la ligne `es`, écrivez : `audio/es_p3.mp3`.
+3. Dans le tableur, colonne `Audio3` de la ligne `es`, écrivez : `audio/es_p3.mp3`,
+   et passez `StatutAudio3` à **« Enregistré »**.
 
 Le bouton **Écouter** apparaît automatiquement. Tant qu'une case audio est vide,
 aucun bouton ne s'affiche (mention « Audio à enregistrer »).
