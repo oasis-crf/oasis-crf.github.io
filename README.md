@@ -51,10 +51,10 @@ Tout se fait dans le tableur. **Il n'y a pas de code à toucher.**
   Ceux-là n'existent sur aucun serveur extérieur, ils sont dans `flags/`.
 - `Sens` : `ltr` par défaut, ou `rtl` pour les langues qui s'écrivent de droite à gauche
   (arabe, hébreu, farsi, dari, ourdou, pachto…).
-- `StatutGeneral` : calculée toute seule, **ne rien y écrire**. « Tout bon » quand les
-  6 traductions et les 6 enregistrements sont faits, « À faire » quand rien ne l'est
-  encore, « En cours » entre les deux. De quoi voir l'avancement d'un coup d'œil,
-  en filtrant la colonne.
+- `StatutGeneral` : calculée toute seule, **ne rien y écrire**. C'est le compte des
+  12 cases d'une langue — 6 traductions, 6 enregistrements — affiché `9/12`. Une
+  « Ancienne version » vaut une demie, d'où les `4,5/12`. Une barre de couleur
+  remplit la cellule à proportion : l'avancement se lit sans lire les chiffres.
 - `StatutTrad1`…`StatutTrad6` : où en est la **traduction écrite** de chaque phrase,
   à choisir dans la liste déroulante.
   **« Ancienne version »** = la traduction existe mais suit l'ancien texte français
