@@ -144,21 +144,21 @@
   /* ---------- retour en haut ----------
      Aucune des deux vues ne tient dans un écran de téléphone : 42 vignettes à
      l'accueil, 6 cartes dans une langue. Le bouton flotte donc dans les deux.
-     Même habillage que « Toutes les langues » : c'est le bouton de navigation
-     de la maison, blanc cerclé de gris, turquoise au survol seulement. Aucun
-     aplat de couleur, pour que « Écouter » reste le seul bouton plein de la
-     page — l'orange doit rester l'endroit où l'œil tombe. */
+     Le kaki du S du logo. Assez sourd pour ne pas disputer la vedette à
+     « Écouter », qui garde l'orange et reste l'action de la page. La flèche
+     est en encre foncée plutôt qu'en blanc : 5,7 de contraste sur ce kaki,
+     là où du blanc n'en donnerait que 2,5. */
   .totop{
     position:fixed; right:18px; bottom:18px; z-index:20;
-    width:48px; height:48px; border-radius:50%;
-    border:1px solid var(--line); background:var(--card); color:var(--ink);
+    width:48px; height:48px; border-radius:50%; border:0;
+    background:var(--olive); color:var(--ink);
     cursor:pointer; display:grid; place-items:center;
-    box-shadow:0 2px 6px rgba(42,39,35,.10), 0 10px 24px rgba(42,39,35,.12);
+    box-shadow:0 2px 6px rgba(42,39,35,.14), 0 10px 24px rgba(42,39,35,.14);
     opacity:0; visibility:hidden; transform:translateY(8px);
     transition:opacity .18s ease, transform .18s ease, visibility .18s;
   }
   .totop.on{opacity:1; visibility:visible; transform:none}
-  .totop:hover{border-color:var(--turquoise-f); color:var(--turquoise-ff)}
+  .totop:hover{background:var(--olive-f); color:#fff}
   .totop:focus-visible{outline:3px solid var(--focus); outline-offset:3px}
 
   /* ---------- footer ---------- */
