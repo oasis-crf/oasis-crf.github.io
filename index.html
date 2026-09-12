@@ -141,6 +141,24 @@
     border-radius:50%; animation:sp .8s linear infinite; margin:40px auto}
   @keyframes sp{to{transform:rotate(360deg)}}
 
+  /* ---------- retour en haut ----------
+     Aucune des deux vues ne tient dans un écran de téléphone : 42 vignettes à
+     l'accueil, 6 cartes dans une langue. Le bouton flotte donc dans les deux.
+     Turquoise comme les vignettes : c'est de la navigation. L'orange reste à
+     « Écouter », seule action de la page. */
+  .totop{
+    position:fixed; right:18px; bottom:18px; z-index:20;
+    width:48px; height:48px; border-radius:50%; border:0;
+    background:var(--turquoise-f); color:#fff; cursor:pointer;
+    display:grid; place-items:center;
+    box-shadow:0 2px 6px rgba(42,39,35,.18), 0 10px 24px rgba(42,39,35,.16);
+    opacity:0; visibility:hidden; transform:translateY(8px);
+    transition:opacity .18s ease, transform .18s ease, visibility .18s;
+  }
+  .totop.on{opacity:1; visibility:visible; transform:none}
+  .totop:hover{background:var(--turquoise-ff)}
+  .totop:focus-visible{outline:3px solid var(--focus); outline-offset:3px}
+
   /* ---------- footer ---------- */
   footer.foot{
     max-width:1040px; margin:0 auto; padding:22px 18px 40px; color:var(--muted); font-size:.8rem;
@@ -204,6 +222,11 @@
   <span>OASIS - Croix-Rouge française</span>
   <span id="srcInfo"></span>
 </footer>
+
+<button class="totop" id="toTop" type="button" aria-label="Revenir en haut de la page">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
 
 <script>
 /* =======================================================================
@@ -393,6 +416,7 @@ var CONFIG = {
             esc(CONFIG.SHEET_ID)+'/edit" target="_blank" rel="noopener">Google Sheets</a> ' +
             '<span style="opacity:.7">(modifiable par les bénévoles)</span>';
           renderGrid("");
+          ouvrirDepuisAdresse();
         })
         .catch(function(err){
           /* Le tableur est injoignable → on repart sur la copie locale. */
@@ -404,11 +428,23 @@ var CONFIG = {
     }
   }
 
+  /* Une adresse du type …/#ar rouvre l'arabe. On réécrit d'abord l'entrée
+     courante sans le code : openLang() en empile alors une seconde, et
+     « précédent » redescend bien sur la liste au lieu de quitter le site. */
+  function ouvrirDepuisAdresse(){
+    var code = "";
+    try { code = decodeURIComponent((location.hash || "").replace(/^#/, "")); } catch(e){ return; }
+    if(!code || !LANGS.some(function(l){ return l.code===code; })) return;
+    history.replaceState(null, "", location.pathname + location.search);
+    openLang(code);
+  }
+
   function bootLocal(warning){
     fetchXLSX().then(function(d){
       ingest(d.trad, d.phrases);
       if(warning) noticeEl.innerHTML = '<p class="warn">⚠️ ' + warning + '</p>';
       renderGrid("");
+      ouvrirDepuisAdresse();
     }).catch(function(err){ showError(err); });
   }
 
@@ -455,7 +491,16 @@ var CONFIG = {
   }
 
   /* ---------- détail d'une langue ---------- */
+  /* openLang() pousse une entrée d'historique, showLang() se contente
+     d'afficher : le retour arrière du navigateur repasse par showLang() sans
+     réempiler quoi que ce soit. */
   function openLang(code){
+    if(!LANGS.some(function(l){ return l.code===code; })) return;
+    history.pushState({code:code}, "", "#"+encodeURIComponent(code));
+    showLang(code);
+  }
+
+  function showLang(code){
     stopAudio();
     var l = LANGS.find(function(x){ return x.code===code; });
     if(!l) return;
@@ -535,13 +580,47 @@ var CONFIG = {
   }
   audio.addEventListener("ended", stopAudio);
 
-  /* ---------- navigation ---------- */
-  $("#back").addEventListener("click", function(){
+  /* ---------- navigation ----------
+     Les deux vues sont deux entrées d'historique. Sans cela, le geste
+     « précédent » du téléphone — le réflexe pour revenir à la liste — faisait
+     quitter le site. Le code de la langue passe aussi dans l'adresse : une
+     page rechargée, ou mise en favori, rouvre la bonne langue. */
+  function showHome(){
     stopAudio();
     detEl.style.display="none"; homeEl.style.display="block";
-    qEl.focus();
+  }
+
+  /* Le champ de recherche ne reprend le focus que sur un clic du bouton :
+     le faire aussi sur « précédent » ouvrirait le clavier du téléphone à
+     chaque retour. */
+  var retourParBouton = false;
+  $("#back").addEventListener("click", function(){
+    retourParBouton = true;
+    history.back();
+  });
+
+  window.addEventListener("popstate", function(e){
+    var code = e.state && e.state.code;
+    if(code){ showLang(code); return; }
+    showHome();
+    if(retourParBouton) qEl.focus();
+    retourParBouton = false;
   });
   qEl.addEventListener("input", function(){ renderGrid(qEl.value); });
+
+  /* ---------- retour en haut ----------
+     Le bouton n'apparaît qu'une fois la première hauteur d'écran dépassée :
+     au-dessus, le haut de page est encore là et il n'aurait rien à faire. */
+  var toTopEl = $("#toTop");
+  function majToTop(){
+    toTopEl.classList.toggle("on", (window.pageYOffset || document.documentElement.scrollTop) > 420);
+  }
+  window.addEventListener("scroll", majToTop, {passive:true});
+  majToTop();
+  toTopEl.addEventListener("click", function(){
+    var doux = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo(doux ? {top:0, behavior:"smooth"} : {top:0});
+  });
 
   boot();
 })();
