@@ -53,8 +53,8 @@ Tout se fait dans le tableur. **Il n'y a pas de code à toucher.**
   (arabe, hébreu, farsi, dari, ourdou, pachto…).
 - `StatutGeneral` : calculée toute seule, **ne rien y écrire**. C'est le compte des
   12 cases d'une langue — 6 traductions, 6 enregistrements — affiché `9/12`. Une
-  « Ancienne version » vaut une demie, d'où les `4,5/12`. Une barre de couleur
-  remplit la cellule à proportion : l'avancement se lit sans lire les chiffres.
+  « Ancienne version » vaut une demie, d'où les `4,5/12`. La cellule se teinte de
+  l'orange au vert selon l'avancement : la colonne se lit sans lire les chiffres.
 - `StatutTrad1`…`StatutTrad6` : où en est la **traduction écrite** de chaque phrase,
   à choisir dans la liste déroulante.
   **« Ancienne version »** = la traduction existe mais suit l'ancien texte français
