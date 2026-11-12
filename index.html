@@ -400,7 +400,13 @@ var CONFIG = {
       var keys = Object.keys(row);
       PHRASES[id] = row[keys[1]] || "";   // 2e colonne = le texte français
     });
-    LANGS = trad.filter(function(r){ return (r.code || "").toString().trim(); });
+    /* Une langue sans aucun enregistrement n'est pas affichée (elle reste dans
+       le tableur : elle réapparaît dès qu'une colonne AudioN est remplie). */
+    LANGS = trad.filter(function(r){
+      if(!(r.code || "").toString().trim()) return false;
+      for(var i=1;i<=6;i++){ if((r["audio"+i]||"").toString().trim()) return true; }
+      return false;
+    });
     /* Ordre alphabétique français : « Éwé » se range à E, « Hébreu » à H.
        L'ordre des lignes du tableur n'a donc plus d'importance. */
     LANGS.sort(function(a, b){
