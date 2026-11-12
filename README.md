@@ -71,11 +71,9 @@ Tout se fait dans le tableur. **Il n'y a pas de code à toucher.**
 
 Rechargez la page : c'est à jour.
 
-**Où modifier, selon la configuration :**
-
-- *Tableur sur Google Sheets* (voir §3) → modifiez en ligne, c'est immédiat.
-- *Pas encore configuré* → modifiez `data_traduction.xlsx` et renvoyez-le sur GitHub
-  (dépôt → `data_traduction.xlsx` → *Add file* → *Upload files* → glisser la nouvelle version).
+**Où modifier :** le site lit `data_traduction.xlsx`, qui est *dans* le dépôt. Les bénévoles
+corrigent dans un Google Sheet, mais le site ne le lit pas (voir §3) : il faut renvoyer le
+fichier sur GitHub pour que la correction apparaisse.
 
 # 2. Ajouter un enregistrement audio
 
@@ -87,51 +85,35 @@ Rechargez la page : c'est à jour.
 Le bouton **Écouter** apparaît automatiquement. Tant qu'une case audio est vide,
 aucun bouton ne s'affiche (mention « Audio à enregistrer »).
 
-> **Et les liens Google Drive ?** Si un bénévole colle un lien de partage Drive dans une
-> colonne `AudioN`, le site le convertit tout seul en lecture directe. **Ça marche
-> souvent, mais pas toujours** : Google intercale parfois une page d'avertissement, et
-> limite les téléchargements d'un fichier très consulté. Pour les enregistrements
-> définitifs, déposez les `.mp3` dans `audio/` : c'est plus rapide et toujours fiable.
+> **Pas de lien Google Drive dans les colonnes `AudioN`.** Le bouton « Écouter » resterait
+> muet : le domaine Croix-Rouge n'autorise pas le partage public des fichiers Drive, donc
+> le site ne peut pas les lire. Les enregistrements arrivent en général dans un `.zip` du
+> Drive : il faut les convertir en `.mp3` et les déposer dans `audio/`.
 
-# 3. Mettre les traductions sur Google Drive *(optionnel, non configuré)*
+# 3. Le Google Sheet des bénévoles
 
-Aujourd'hui le site lit `data_traduction.xlsx`, qui est *dans* le site : le modifier demande de
-repasser par GitHub. Pour que **plusieurs bénévoles corrigent les traductions
-directement**, on met la base sur Google Sheets.
+Les bénévoles corrigent les traductions dans un **Google Sheet**. Mais le domaine
+Croix-Rouge interdit de le partager publiquement (« Tous les utilisateurs disposant du
+lien ») : **le site ne peut donc pas le lire**, et `SHEET_ID` reste vide dans `index.html`.
+Le site ne sert que `data_traduction.xlsx`, et rien ne synchronise les deux : c'est une
+opération manuelle.
 
-1. **Importer le tableur.** [drive.google.com](https://drive.google.com) → **Nouveau** →
-   *Importer un fichier* → `data_traduction.xlsx`. Puis clic droit → *Ouvrir avec* →
-   **Google Sheets** → Fichier → **Enregistrer au format Google Sheets**.
-   **Ne renommez pas les onglets** (`Phrases`, `Traductions`) : le site les cherche par
-   leur nom.
+**Du Sheet vers le site** (récupérer leurs corrections) :
 
-2. **Partager en lecture.** Bouton **Partager** → *Accès général* →
-   « **Tous les utilisateurs disposant du lien** » → rôle **Lecteur**.
-   C'est ce qui permet au site de lire le tableur.
+1. Dans le Sheet : **Fichier → Télécharger → Microsoft Excel**.
+2. Remplacer `data_traduction.xlsx` dans le dépôt par ce fichier, puis l'envoyer sur GitHub.
 
-3. **Donner le droit de modifier aux bénévoles.** Toujours dans **Partager**, ajoutez
-   leurs adresses e-mail en **Éditeur**. Eux seuls pourront écrire.
+**Du dépôt vers le Sheet** (après avoir ajouté une langue ou un audio dans le fichier) :
+Fichier → **Importer** → *Importer* → « **Remplacer la feuille de calcul** ». Attention, ça
+écrase ce qui a été tapé en ligne depuis le dernier téléchargement : partez donc toujours
+d'un export récent, jamais d'une vieille copie du dépôt.
 
-4. **Copier l'identifiant** dans l'adresse du tableur :
+À savoir :
 
-   ```
-   https://docs.google.com/spreadsheets/d/1a2B3c4D5e6F7g8H9i0J.../edit#gid=0
-                                          └────── ceci ──────┘
-   ```
-
-5. **Le coller dans `index.html`**, vers la ligne 187 :
-
-   ```js
-   SHEET_ID: "1a2B3c4D5e6F7g8H9i0J...",
-   ```
-
-   Enregistrez et renvoyez le fichier sur GitHub. Une minute plus tard, c'est actif :
-   en bas du site s'affiche « Données : Google Sheets » avec un lien vers le tableur.
-
-**Si Google est injoignable**, le site repasse automatiquement sur `data_traduction.xlsx` et affiche
-un bandeau orange. Il ne tombe jamais en panne. Pensez donc de temps en temps à
-retélécharger le Google Sheet (Fichier → Télécharger → *Microsoft Excel*) et à remplacer
-`data_traduction.xlsx` dans le dépôt, pour garder la copie de secours à jour.
+- **Ne renommez pas les onglets** (`Phrases`, `Traductions`) : le site les cherche par leur nom.
+  Après un passage par Google, « Mode d'emploi » devient « Mode demploi » : sans effet.
+- Toute mise en forme conditionnelle doit rester en **dégradé de couleurs** : Google
+  Sheets perd les barres de données.
 
 # 4. Tester sur votre ordinateur
 
